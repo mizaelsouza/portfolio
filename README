@@ -1,0 +1,27 @@
+INSTRUÇÕES
+
+    REQUISITO / INSTALAÇÃO 
+    
+        - MYSQL 
+        - PM2
+        - NODEJS
+        - CONFIGURARAÇÃO
+            * PARA CONFIGURAR O BANCO DE DADOS, ALTERE O ARQUIVO knexfile.js             
+
+1 - Via terminal digite npm install para instala todos os pacotes e dependencia dos pacotes.
+    * COMANDO: npm install
+
+2 - ANTES DE QUALQUER COISA É PRECISO REALIZAR A CRIAÇÃO DO BANCO DE DADOS.
+   
+    *COMANDO: create table " nome do seu banco "
+
+3 - ABRA O TERMINAL ENTRA DENTRO DO DIRETORIO "BACK" E UTILIZE OS COMANDOS PARA CRIAR AS TABELAS.
+   
+    * COMANDO: npx knex migrate:latest -  com esse comando ira criar todas as tabelas no banco.
+
+4 - PARA EXECULTAR O SERVIÇO
+
+    * COMANDO: npm start - esse comando deve ser utilizando dentro da pasta back
+    * COMANDO: pm2 start 0 - utilizar esse comando caso o pm2 esteja configurado.
+
+    Para mais informações sobre o pm2 acesse: https://pm2.keymetrics.io/docs/usage/quick-start/

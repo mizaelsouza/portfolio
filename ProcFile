@@ -1,0 +1,2 @@
+wed: node index.js
+wed: knex migrate:latest
