@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.hasTable("RH_DEPARTAMENTO").then(function (exists) {
+    return knex.schema.hasTable("rh_departamento").then(function (exists) {
         if (!exists) {
-            return knex.schema.createTable("RH_DEPARTAMENTO", (table) => {
+            return knex.schema.createTable("rh_departamento", (table) => {
                 table.bigIncrements("id").primary().notNullable();
                 table.string("descricao").notNullable();
                 table.specificType("status", "char").notNullable();
@@ -18,5 +18,5 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-    return knex.schema.dropTable("RH_DEPARTAMENTO");
+    return knex.schema.dropTable("rh_departamento");
 };

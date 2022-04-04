@@ -1,10 +1,10 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.hasTable("COLABORADOR").then(function (exists) {
+    return knex.schema.hasTable("colaborador").then(function (exists) {
         if (!exists) {
-            return knex.schema.createTable("COLABORADOR", (table) => {
+            return knex.schema.createTable("colaborador", (table) => {
                 table.bigIncrements("id").primary().notNullable();
-                table.datetime("dtAdmissao").notNullable();
-                table.datetime("dtDemissao").notNullable();
+                table.date("dtAdmissao").notNullable();
+                table.date("dtDemissao").notNullable();
 
                 table.decimal("salarioBase").notNullable();
                 table.string("pisPasep").notNullable();
@@ -17,7 +17,7 @@ exports.up = function (knex, Promise) {
                 table.bigInteger("rhDepartamentoId").unsigned().notNull();
                 table
                     .foreign("rhDepartamentoId")
-                    .references("rh_Departamento.id")
+                    .references("rh_departamento.id")
                     .onUpdate("CASCADE")
                     .onDelete("CASCADE");
 
@@ -47,5 +47,5 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-    return knex.schema.dropTable("COLABORADOR");
+    return knex.schema.dropTable("colaborador");
 };

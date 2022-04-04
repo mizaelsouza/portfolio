@@ -2,7 +2,7 @@ module.exports = (app) => {
     //CADASTRAR CONTADOR
     const cadastrar_CONTADOR = async (req, res) => {
         try {
-            const { crcInscricao, ufIncricao } = req.body;
+            const { crcInscricao, ufInscricao } = req.body;
             const {
                 nome,
                 cep,
@@ -24,7 +24,7 @@ module.exports = (app) => {
                 municipioId,
                 ufId,
             };
-
+            
             await app.db.transaction(async (trans) => {
                 const resultPessoa = await app
                     .db("pessoas")
@@ -34,7 +34,7 @@ module.exports = (app) => {
                 if (resultPessoa[0] > 0) {
                     const contador = {
                         crcInscricao,
-                        ufId: ufIncricao,
+                        ufId: ufInscricao,
                         pessoasId: resultPessoa[0],
                     };
                     await app
@@ -92,6 +92,8 @@ module.exports = (app) => {
                 .select(
                     "contador.id",
                     "pessoas.nome",
+                    "contador.crcInscricao",
+                    "uf.nome as ufIe",                                        
                     "bairro",
                     "cep",
                     "logradouro",
@@ -126,11 +128,79 @@ module.exports = (app) => {
         }
     };
 
-    //LISTAR CNAE
+    //ATUALIZAR
+
+    const atualizar_CONTADOR = async (req, res) => {
+        try {
+            const id = req.params.id
+            const { crcInscricao, ufIncricao } = req.body;
+            const {
+                nome,
+                cep,
+                logradouro,
+                numero,
+                bairro,
+                complemento,
+                municipioId,
+                ufId,
+            } = req.body;
+
+            const pessoa = {
+                nome,
+                cep,
+                logradouro,
+                numero,
+                bairro,
+                complemento,
+                municipioId,
+                ufId,
+            };
+
+            await app.db.transaction(async (trans) => {
+                const resultPessoa = await app
+                    .db("pessoas")
+                    .transacting(trans)
+                    .where({ 'pessoas.id': id })
+                    .update(pessoa);
+
+                if (resultPessoa <= 0) {
+                    return res.status(500).send({ error: 'Informação não localizada.' })
+                }
+
+                const contador = {
+                    crcInscricao,
+                    ufId: ufIncricao,
+                    pessoasId: resultPessoa[0],
+                };
+
+                if (resultPessoa > 0) {
+                    const resultContador = await app
+                        .db("contador")
+                        .transacting(trans)
+                        .where({ pessoasId: id })
+                        .update(contador);
+                  
+
+                    if (resultContador > 0)  {
+                        res.status(200).send({
+                            sucesso: "CONTADOR atualizada com sucesso.",
+                        });
+                    }
+                }
+            });
+        } catch (err) {
+            res.status(500).send({
+                error: "FALHA ao cadsatrar CONTADOR.",
+                motivo: err,
+            });
+        }
+    };
+
 
     return {
         cadastrar_CONTADOR,
         deletar_CONTADOR,
         listar_CONTADOR,
+        atualizar_CONTADOR
     };
 };

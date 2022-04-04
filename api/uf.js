@@ -20,7 +20,7 @@ module.exports = (app) => {
     const cadastrar_PAIS = async (req, res) => {
         try {
             await app.db.transaction(async (trans) => {
-                await app.db("PAIS").transacting(trans).insert(req.body);
+                await app.db("pais").transacting(trans).insert(req.body);
                 res.status(200).send({
                     sucesso: "PAIS cadastrada com sucesso.",
                 });
@@ -37,7 +37,7 @@ module.exports = (app) => {
     const cadastrar_MUNICIPIO = async (req, res) => {
         try {
             await app.db.transaction(async (trans) => {
-                await app.db("MUNICIPIO").transacting(trans).insert(req.body);
+                await app.db("municipio").transacting(trans).insert(req.body);
                 res.status(200).send({
                     sucesso: "MUNICIPIO cadastrada com sucesso.",
                 });
@@ -57,11 +57,11 @@ module.exports = (app) => {
 
             const query = await app.db
                 .select("*")
-                .table("UF")
+                .table("uf")
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("UF").count();
+            const [count] = await app.db("uf").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -86,11 +86,11 @@ module.exports = (app) => {
 
             const query = await app.db
                 .select("*")
-                .table("PAIS")
+                .table("pais")
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("PAIS").count();
+            const [count] = await app.db("pais").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -114,11 +114,11 @@ module.exports = (app) => {
 
             const query = await app.db
                 .select("*")
-                .table("MUNICIPIO")
+                .table("municipio")
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("MUNICIPIO").count();
+            const [count] = await app.db("municipio").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -136,6 +136,29 @@ module.exports = (app) => {
         }
     };
 
+
+
+    //LISTAR MUNICIPIO
+    const filtrar_MUNICIPIO = async (req, res) => {
+        try {
+            const idM = req.params.id
+              const query = await app.db
+                .select(
+                    "uf.id",
+                    "uf.sigla",
+                    "uf.nome")
+                .table("municipio")
+                .join('uf', 'uf.id', 'ufId')
+                .where({ 'municipio.id': idM })
+                
+            res.json(query);
+        } catch (error) {
+            res.json({
+                mensagem: "Verifique, ocorreu erro ao MUNICIPIO os dados",
+                motivo: error,
+            });
+        }
+    };
     //LISTAR CNAE
 
     return {
@@ -145,5 +168,6 @@ module.exports = (app) => {
         listar_UF,
         listar_PAIS,
         listar_MUNICIPIO,
+        filtrar_MUNICIPIO
     };
 };

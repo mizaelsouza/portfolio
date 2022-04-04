@@ -1,3 +1,5 @@
+const {converteData, converteDataEN} = require("../funcoes/converte");
+
 module.exports = (app) => {
     //CADASTRAR FORNECEDOR
     const cadastrar_TRANSPORTADORA = async (req, res) => {
@@ -24,7 +26,6 @@ module.exports = (app) => {
                 municipioId,
                 ufId,
             };
-
             await app.db.transaction(async (trans) => {
                 const resultPessoa = await app
                     .db("pessoas")
@@ -32,7 +33,7 @@ module.exports = (app) => {
                     .insert(pessoa);
 
                 const transportadora = {
-                    dtCadastro,
+                    dtCadastro: converteDataEN(dtCadastro),
                     observacao,
                     pessoasId: resultPessoa[0],
                 };
@@ -105,12 +106,27 @@ module.exports = (app) => {
             const { page = 1, limite = 12 } = req.query;
 
             const query = await app.db
-                .select("*")
-                .table("TRANSPORTADORA")
+                .select(
+                    "transportadora.id",                    
+                    "pessoas.nome",
+                    app.db.raw('DATE_FORMAT(transportadora.dtCadastro, "%d/%m/%Y") as dtCadastro'),
+                    "pessoas.cep",
+                    "pessoas.logradouro",
+                    "pessoas.numero",
+                    "pessoas.complemento",
+                    "pessoas.bairro",
+                    "municipio.nome as cidade",
+                    "uf.sigla as uf",
+                    "observacao"
+                    )
+                .table("transportadora")
+                .join('pessoas','pessoasId','pessoas.id')
+                .join('municipio','municipioId','municipio.id')
+                .join('uf','pessoas.ufId','uf.id')
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("TRANSPORTADORA").count();
+            const [count] = await app.db("transportadora").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -128,11 +144,79 @@ module.exports = (app) => {
         }
     };
 
-    //LISTAR CNAE
+
+    //ATUALIZAR
+
+    const atualizar_TRANSPORTADORA = async (req, res) => {
+        try {
+            const id = req.params.id
+            const { dtCadastro, observacao } = req.body;
+            const {
+                nome,
+                cep,
+                logradouro,
+                numero,
+                bairro,
+                complemento,
+                municipioId,
+                ufId,
+            } = req.body;
+
+            const pessoa = {
+                nome,
+                cep,
+                logradouro,
+                numero,
+                bairro,
+                complemento,
+                municipioId,
+                ufId,
+            };
+
+            await app.db.transaction(async (trans) => {
+                const resultPessoa = await app
+                    .db("pessoas")
+                    .transacting(trans)
+                    .where({ 'pessoas.id': id })
+                    .update(pessoa);
+
+                if (resultPessoa <= 0) {
+                    return res.status(500).send({ error: 'Informação não localizada.' })
+                }
+
+
+
+                if (resultPessoa > 0) {
+                    const transportadora = {
+                        dtCadastro: converteData(dtCadastro),
+                        observacao
+                    }
+                    const resultTransporte = await app
+                        .db("transportadora")
+                        .transacting(trans)
+                        .where({ pessoasId: id })
+                        .update(transportadora);
+
+
+                    if (resultTransporte > 0) {
+                        res.status(200).send({
+                            sucesso: "TRANSPORTADORA atualizada com sucesso.",
+                        });
+                    }
+                }
+            });
+        } catch (err) {
+            res.status(500).send({
+                error: "FALHA ao cadsatrar TRANSPORTADORA.",
+                motivo: err,
+            });
+        }
+    };
 
     return {
         cadastrar_TRANSPORTADORA,
         deletar_TRANSPORTADORA,
         listar_TRANSPORTADORA,
+        atualizar_TRANSPORTADORA
     };
 };

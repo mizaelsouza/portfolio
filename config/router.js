@@ -45,17 +45,33 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .get(app.api.loja.listar_LOJA);
 
+    app.route("/api/cadastro/loja/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.loja.filtro_COLABORADOR);
+
     app.route("/api/cadastro/loja")
         .all(app.config.passport.authenticate())
         .post(app.api.loja.cadastrar_LOJA);
+
+    app.route("/api/cadastro/loja/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.loja.atualizar_LOJA);
 
     app.route("/api/cadastro/tributacao/regime")
         .all(app.config.passport.authenticate())
         .post(app.api.tributacao.cadastrar_CRT);
 
+    app.route("/api/cadastro/tributacao/regime")
+        .all(app.config.passport.authenticate())
+        .get(app.api.tributacao.listar_CRT);
+
     app.route("/api/cadastro/tributacao/cnae")
         .all(app.config.passport.authenticate())
         .post(app.api.tributacao.cadastrar_CNAE);
+
+    app.route("/api/cadastro/tributacao/cnae")
+        .all(app.config.passport.authenticate())
+        .get(app.api.tributacao.listar_CNAE);
 
     /*RECUPERACAO DE SENHA*/
     /*
@@ -243,6 +259,14 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .post(app.api.colaborador.cadastrar_COLABORADOR);
 
+    app.route("/api/cadastro/colaborador/filtro/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.colaborador.filtro_COLABORADOR);
+
+    app.route("/api/cadastro/colaborador/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.colaborador.atualizar_COLABORADOR);
+
   
 
     /*
@@ -315,6 +339,10 @@ module.exports = (app) => {
     app.route("/api/cadastro/contador/:id")
         .all(app.config.passport.authenticate())
         .delete(app.api.contador.deletar_CONTADOR);
+
+    app.route("/api/cadastro/contador/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.contador.atualizar_CONTADOR);
     /*
     =============================
         TRANSPORTADORA
@@ -332,6 +360,10 @@ module.exports = (app) => {
     app.route("/api/cadastro/transportadora/:id")
         .all(app.config.passport.authenticate())
         .delete(app.api.transportadora.deletar_TRANSPORTADORA);
+
+    app.route("/api/cadastro/transportadora/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.transportadora.atualizar_TRANSPORTADORA);
 
     /*
     =============================
@@ -363,4 +395,8 @@ module.exports = (app) => {
     app.route("/api/cadastro/municipio")
         .all(app.config.passport.authenticate())
         .post(app.api.uf.cadastrar_MUNICIPIO);
+        
+    app.route("/api/cadastro/municipio/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.uf.filtrar_MUNICIPIO);
 };

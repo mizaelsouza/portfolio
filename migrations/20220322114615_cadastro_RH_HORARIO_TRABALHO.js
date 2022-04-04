@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.hasTable("RH_HORARIO_TRABALHO").then(function (exists) {
+    return knex.schema.hasTable("rh_horario_trabalho").then(function (exists) {
         if (!exists) {
-            return knex.schema.createTable("RH_HORARIO_TRABALHO", (table) => {
+            return knex.schema.createTable("rh_horario_trabalho", (table) => {
                 table.bigIncrements("id").primary().notNullable();
                 table.string("descricao").notNullable();
                 table.time("horario1Inicio").notNullable();
@@ -27,5 +27,5 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-    return knex.schema.dropTable("RH_HORARIO_TRABALHO");
+    return knex.schema.dropTable("rh_horario_trabalho");
 };

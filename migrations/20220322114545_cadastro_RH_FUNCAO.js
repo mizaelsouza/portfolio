@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.hasTable("RH_FUNCAO").then(function (exists) {
+    return knex.schema.hasTable("rh_funcao").then(function (exists) {
         if (!exists) {
-            return knex.schema.createTable("RH_FUNCAO", (table) => {
+            return knex.schema.createTable("rh_funcao", (table) => {
                 table.bigIncrements("id").primary().notNullable();
                 table.string("descricao").notNullable();
 
@@ -19,5 +19,5 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-    return knex.schema.dropTable("RH_FUNCAO");
+    return knex.schema.dropTable("rh_funcao");
 };
