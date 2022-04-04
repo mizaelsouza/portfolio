@@ -6,9 +6,9 @@ module.exports = {
         version: "8.0.26",
         connection: {
             database: "web",          
-            host: env.process.HOST_AWS,
-            user: env.process.USER_AWS,
-            password: env.process.PASS,
+            host: process.env.HOST_AWS,
+            user: process.env.USER_AWS,
+            password: process.env.PASS,
         },
     },
     pool: { min: 0, max: 7 },
