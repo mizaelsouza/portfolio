@@ -246,6 +246,10 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .put(app.api.secoes_e_grupos.atualizarGrupo);
 
+    app.route("/api/grupo/cadastro/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.secoes_e_grupos.deletar_GRUPO);
+
     //SUBGRUPO
     app.route("/api/subgrupo")
         .all(app.config.passport.authenticate())
@@ -263,6 +267,12 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .put(app.api.secoes_e_grupos.atualizarSubGrupo);
 
+    app.route("/api/subgrupo/cadastro/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.secoes_e_grupos.deletar_SUBGRUPO);
+
+  
+
     //SECAO
     app.route("/api/secao")
         .all(app.config.passport.authenticate())
@@ -271,6 +281,14 @@ module.exports = (app) => {
     app.route("/api/secao/cadastro")
         .all(app.config.passport.authenticate())
         .post(app.api.secoes_e_grupos.salvarSecao);
+
+    app.route("/api/secao/cadastro/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.secoes_e_grupos.atualizarSecao);
+
+    app.route("/api/secao/cadastro/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.secoes_e_grupos.deletar_SECAO);
 
     //MIDIA DIGITAL
     app.route("/api/midia")
