@@ -32,9 +32,9 @@ module.exports = (app) => {
 
     const listarSubGrupo = (req, res) => {
         app.db("subGrupo")
-            .then((grupo) => {
+            .then((subGrupo) => {
                 if (grupo) {
-                    res.status(200).send(grupo);
+                    res.status(200).send(subGrupo);
                 }
             })
             .catch((err) => {

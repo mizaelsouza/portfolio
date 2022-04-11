@@ -259,6 +259,10 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .post(app.api.secoes_e_grupos.salvarSubGrupo);
 
+    app.route("/api/subgrupo/cadastro/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.secoes_e_grupos.atualizarSubGrupo);
+
     //SECAO
     app.route("/api/secao")
         .all(app.config.passport.authenticate())
