@@ -181,6 +181,61 @@ module.exports = (app) => {
       });
   };
 
+  /*FILTRAR OS DADOS*/
+
+  const consulta_SECAO = (req, res) => {
+    const descricao = req.params.id;
+    app
+      .db("secao")
+      .where('descricao', 'like', `%${descricao}%`)
+      .then((subgrupo) => {
+        if (subgrupo) {
+          res.status(200).send(subgrupo);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          res.status(400).send("Algo de errado aconteceu.", err);
+        }
+      });
+  };
+  const consulta_GRUPO = (req, res) => {
+    const descricao = req.params.id;
+    app
+      .db("grupo")
+      .where('descricao', 'like', `%${descricao}%`)
+      .then((subgrupo) => {
+        if (subgrupo) {
+          res.status(200).send(subgrupo);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          res.status(400).send("Algo de errado aconteceu.", err);
+        }
+      });
+  };
+
+
+  const consulta_SUBGRUPO = (req, res) => {
+    const descricao = req.params.id;
+    app
+      .db("subGrupo")
+      .where('descricao', 'like', `%${descricao}%`)
+      .then((subgrupo) => {
+        if (subgrupo) {
+          res.status(200).send(subgrupo);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          res.status(400).send("Algo de errado aconteceu.", err);
+        }
+      });
+  };
+
+
+
   return {
     listarSecao,
     listarGrupo,
@@ -195,5 +250,9 @@ module.exports = (app) => {
     deletar_SECAO,
     deletar_GRUPO,
     deletar_SUBGRUPO,
+
+    consulta_SECAO,
+    consulta_GRUPO,
+    consulta_SUBGRUPO
   };
 };

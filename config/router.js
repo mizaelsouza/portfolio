@@ -238,6 +238,10 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .get(app.api.secoes_e_grupos.listarGrupo);
 
+    app.route("/api/grupo/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.secoes_e_grupos.consulta_GRUPO);
+
     app.route("/api/grupo/cadastro")
         .all(app.config.passport.authenticate())
         .post(app.api.secoes_e_grupos.salvarGrupo);
@@ -254,6 +258,10 @@ module.exports = (app) => {
     app.route("/api/subgrupo")
         .all(app.config.passport.authenticate())
         .get(app.api.secoes_e_grupos.listarSubGrupo);
+
+    app.route("/api/subgrupo/filtrar/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.secoes_e_grupos.consulta_SUBGRUPO);
 
     app.route("/api/subgrupo/:id")
         .all(app.config.passport.authenticate())
@@ -277,6 +285,10 @@ module.exports = (app) => {
     app.route("/api/secao")
         .all(app.config.passport.authenticate())
         .get(app.api.secoes_e_grupos.listarSecao);
+
+    app.route("/api/secao/:id")
+        .all(app.config.passport.authenticate())
+        .get(app.api.secoes_e_grupos.consulta_SECAO);
 
     app.route("/api/secao/cadastro")
         .all(app.config.passport.authenticate())
