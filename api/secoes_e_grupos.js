@@ -87,12 +87,11 @@ module.exports = (app) => {
 
   const atualizarSecao = (req, res) => {
     const codigo = req.params.id;
-    const secao = req.body;
-    //console.log('Produots: ',produtos)
+    const secao = req.body;   
 
     app
       .db("secao")
-      .where({ codigo: codigo })
+      .where({ id: codigo })
       .update(secao)
       .then((_) => {
         res.status(200).send("Sucesso.");
