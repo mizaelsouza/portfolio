@@ -18,11 +18,13 @@ module.exports = (app) => {
     */
 
     app.route("/api/usuario/cadastro")
-        //  .all(app.config.passport.authenticate())
+        .all(app.config.passport.authenticate())
         .post(app.api.usuario.save);
+
     app.post("/api/usuarios/alterar_senha", app.api.authenticar.altarecaoSenha);
     app.post("/api/usuario/perfil/cadastro", app.api.usuario.cadastrar_perfil);
-    app.get("/api/usuario/perfil/cadastro", app.api.usuario.listarPerfil);
+    
+
     app.post("/api/usuario/login", app.api.authenticar.login);
 
     app.route("/api/usuario/cadastro/:id")
@@ -37,9 +39,103 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .get(app.api.usuario.listar);
 
+
+    // CADASTRO DE PERFIL DO USUARIOS
+
+    app.route("/api/usuario/perfil/cadastro")
+        .all(app.config.passport.authenticate())
+        .get(app.api.usuario.listarPerfil);
+
+
     app.route("/api/cadastro/usuario/perfil")
         .all(app.config.passport.authenticate())
         .post(app.api.usuario.cadastrar_perfil);
+
+
+
+
+    // CADASTRO DE PREVILEGIO
+
+    app.route("/api/cadastro/usuarios/programas")
+        .all(app.config.passport.authenticate())
+        .post(app.api.usuario.cadastrar_USUARIOS_PROGRAMA);
+
+    app.route("/api/cadastro/usuarios/programas")
+        .all(app.config.passport.authenticate())
+        .get(app.api.usuario.listar_USUARIOS_PROGRAMA);
+
+   
+    //PERFIL PROGRAMAS
+    app.route("/api/cadastro/usuarios/perfil/programas")
+        .all(app.config.passport.authenticate())
+        .post(app.api.usuario.cadastrar_Perfil_USUARIOS_PROGRAMA);
+
+    app.route("/api/cadastro/usuarios/perfil/programas")
+        .all(app.config.passport.authenticate())
+        .get(app.api.usuario.listar_Perfil_USUARIOS_PROGRAMA);
+
+    app.route("/api/cadastro/usuarios/perfil/programas/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.usuario.atualizar_Perfil_USUARIOS_PROGRAMA);
+
+    app.route("/api/cadastro/usuarios/perfil/programas/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.usuario.deletar_Perfil_USUARIOS_PROGRAMA);
+
+
+    //PREVILEGIOS
+    app.route("/api/cadastro/usuarios/previlegio")
+        .all(app.config.passport.authenticate())
+        .post(app.api.previlegios.cadastrar_PREVILEGIO);
+
+    app.route("/api/cadastro/usuarios/previlegio")
+        .all(app.config.passport.authenticate())
+        .get(app.api.previlegios.listar_PREVILEGIOS);
+
+    app.route("/api/cadastro/usuarios/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.previlegios.atualizar_PREVILEGIOS);
+
+    app.route("/api/cadastro/usuarios/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.previlegios.deletar_PREVILEGIOS);
+
+    //PROGRAMAS PREVILEGIOS
+    app.route("/api/cadastro/programa/previlegio")
+        .all(app.config.passport.authenticate())
+        .post(app.api.previlegios.cadastrar_PREVILEGIO_PROGRAMAS);
+
+    app.route("/api/cadastro/programa/previlegio")
+        .all(app.config.passport.authenticate())
+        .get(app.api.previlegios.listar_PREVILEGIO_PROGRAMAS);
+
+    app.route("/api/cadastro/programa/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.previlegios.atualizar_PREVILEGIO_PROGRAMAS);
+
+    app.route("/api/cadastro/programa/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.previlegios.deletar_PREVILEGIO_PROGRAMAS);
+
+    //USUARIOS PROGRAMAS 
+
+    app.route("/api/cadastro/usuarios/programa/previlegio")
+        .all(app.config.passport.authenticate())
+        .post(app.api.previlegios.cadastrar_USUARIOS_PROGRAMA_PREVILEGIO);
+
+    app.route("/api/cadastro/usuarios/programa/previlegio")
+        .all(app.config.passport.authenticate())
+        .get(app.api.previlegios.listar_USUARIOS_PROGRAMA_PREVILEGIO);
+
+    app.route("/api/cadastro/usuarios/programa/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .put(app.api.previlegios.atualizar_USUARIOS_PROGRAMA_PREVILEGIO);
+
+    app.route("/api/cadastro/usuarios/programa/previlegio/:id")
+        .all(app.config.passport.authenticate())
+        .delete(app.api.previlegios.deletar_USUARIOS_PROGRAMA_PREVILEGIO);
+
+    // CADASTRO DE LOJA
 
     app.route("/api/cadastro/loja")
         .all(app.config.passport.authenticate())
@@ -80,9 +176,32 @@ module.exports = (app) => {
     PROGRAMAS
 */
 
-    app.route("/api/programas")
+
+    app.route("/api/cadastro/modulos")
         .all(app.config.passport.authenticate())
-        .get(app.api.programas.listarModulo);
+        .post(app.api.programas.cadastrar_MODULO);
+
+    app.route("/api/cadastro/modulos")
+        .all(app.config.passport.authenticate())
+        .get(app.api.programas.listar_MODULOS);
+
+    app.route("/api/cadastro/subProgramas")
+        .all(app.config.passport.authenticate())
+        .post(app.api.programas.cadastrar_SUBPROGRAMA);
+
+    app.route("/api/cadastro/subProgramas")
+        .all(app.config.passport.authenticate())
+        .get(app.api.programas.listar_SUBPROGRAMA);
+
+
+    app.route("/api/cadastro/programas")
+        .all(app.config.passport.authenticate())
+        .post(app.api.programas.cadastrar_PROGRAMAS);
+
+
+    app.route("/api/cadastro/programas")
+        .all(app.config.passport.authenticate())
+        .get(app.api.programas.listar_PROGRAMAS);
 
     /*app.route('/api/usuarios/recuperar_senha')
             .all(app.config.passport.authenticate())
@@ -267,7 +386,7 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .put(app.api.colaborador.atualizar_COLABORADOR);
 
-  
+
 
     /*
     =============================
@@ -395,8 +514,10 @@ module.exports = (app) => {
     app.route("/api/cadastro/municipio")
         .all(app.config.passport.authenticate())
         .post(app.api.uf.cadastrar_MUNICIPIO);
-        
+
     app.route("/api/cadastro/municipio/:id")
         .all(app.config.passport.authenticate())
         .get(app.api.uf.filtrar_MUNICIPIO);
+
+
 };

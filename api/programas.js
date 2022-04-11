@@ -1,36 +1,43 @@
-const bccrypt = require("bcrypt-nodejs");
-
+const groupBy = require('./../funcoes/groupBy.js')
 module.exports = (app) => {
     /*Metodo que ira inserir os dados no banco*/
-    const save = (req, res) => {
-        obterHash(req.body.senha, (hash) => {
-            const { login, email, perfilId, status } = req.body;
-            const senha = hash;
-            app.db("usuarios")
-                .insert({
-                    login,
-                    senha,
-                    email: email.toLowerCase(),
-                    perfilId,
-                    status,
-                })
-                .then((_) => res.status(200).send("Sucesso."))
-                .catch((err) => {
-                    if (err.code === "ER_DUP_ENTRY") {
-                        res.status(400).json({
-                            status: 400,
-                            mensagem: "Usuario já esta cadastro.",
-                            "motivo:": err.sqlMessage,
-                        });
-                    } else {
-                        res.status(500).json({
-                            status: 500,
-                            mensagem: "Verifique os dados: ",
-                            err,
-                        });
-                    }
-                });
-        });
+    const cadastrar_MODULO = async (req, res) => {
+        try {
+            await app.db("modulos").insert(req.body);
+            res.status(200).send({
+                mensagem: "Sucesso ao cadastrar modulo",
+            });
+        } catch (error) {
+            res.status(500).send({
+                mensagem: "Falha ao cadastrar modulo",
+            });
+        }
+    };
+
+    const cadastrar_PROGRAMAS = async (req, res) => {
+        try {
+            await app.db("programas").insert(req.body);
+            res.status(200).send({
+                mensagem: "Sucesso ao cadastrar programas",
+            });
+        } catch (error) {
+            res.status(500).send({
+                mensagem: "Falha ao cadastrar programas",
+            });
+        }
+    };
+
+    const cadastrar_SUBPROGRAMA = async (req, res) => {
+        try {
+            await app.db("programa_SubModulo").insert(req.body);
+            res.status(200).send({
+                mensagem: "Sucesso ao cadastrar Sub Programa",
+            });
+        } catch (error) {
+            res.status(500).send({
+                mensagem: "Falha ao cadastrar Sub Programa",
+            });
+        }
     };
 
     const atualizar = (req, res) => {
@@ -84,51 +91,18 @@ module.exports = (app) => {
         }
     };
 
-    const listarPorEmail = (req, res) => {
-        const email = req.params.id;
-        app.db
-            .select(
-                "usuarios.id as id",
-                "login",
-                "email",
-                "perfilUsuario.nome as perfil",
-                "usuarios.status as status",
-            )
-            .table("usuarios")
-            .join("perfilUsuario", "usuarios.perfilId", "=", "perfilUsuario.id")
-            .where({ email: email })
-            .then((user) => {
-                res.send(user);
-            })
-            .catch((err) => {
-                res.status(400).send("Verifique as informações. ");
-            });
-    };
 
-    const listar = async (req, res) => {
+    const listar_MODULOS = async (req, res) => {
         try {
             const { page = 1 } = req.query;
             const limite = 10;
             const query = await app.db
-                .select(
-                    "usuarios.id as id",
-                    "login",
-                    "email",
-                    "perfilUsuario.nome as perfil",
-                    "usuarios.status as status",
-                )
-                .table("usuarios")
-                .join(
-                    "perfilUsuario",
-                    "usuarios.perfilId",
-                    "=",
-                    "perfilUsuario.id",
-                )
-                .orderBy("usuarios.id")
+                .select("*")
+                .table("modulos")
                 .limit(10)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("usuarios").count();
+            const [count] = await app.db("modulos").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -136,7 +110,7 @@ module.exports = (app) => {
                 Total: count["count(*)"],
                 Paginas: totalPage,
                 PaginaAtual: pageAtual,
-                Usuarios: query,
+                Modulos: query,
             });
         } catch (error) {
             res.json({
@@ -146,40 +120,66 @@ module.exports = (app) => {
         }
     };
 
-    const listarModulo = async (req, res) => {
+    const listar_SUBPROGRAMA = async (req, res) => {
         try {
-            const modulo = await app.db.select("*").table("programa_modulo");
+            const { page = 1 } = req.query;
+            const limite = 10;
+            const query = await app.db
+                .select("*")
+                .table("programa_SubModulo")
+                .limit(10)
+                .offset((page - 1) * limite);
 
-            const subModulo = await app.db
-                .select(
-                    "programa_modulo.nome as modulo",
-                    "programa_submodulo.nome as menu",
-                )
-                .table("programa_submodulo")
-                .join(
-                    "programa_modulo",
-                    "programaModuloId",
-                    "=",
-                    "programa_modulo.id",
-                );
+            const [count] = await app.db("programa_SubModulo").count();
+            const totalPage = Math.ceil(count["count(*)"] / limite);
+            const pageAtual = parseInt(page);
+
+            res.json({
+                Total: count["count(*)"],
+                Paginas: totalPage,
+                PaginaAtual: pageAtual,
+                SubModulo: query,
+            });
+        } catch (error) {
+            res.json({
+                mensagem: "Verifique, ocorreu erro ao listar os dados",
+                motivo: error,
+            });
+        }
+    };
+
+    const listar_PROGRAMAS = async (req, res) => {
+        try {
             const programa = await app.db
                 .select(
-                    "programa.nome as programa",
-                    "programa.path",
-                    "programa_submodulo.nome as menu",
+                    "programas.nome as Programas",
+                    "programas.path",
+                    "programa_SubModulo.nome as SubPrograma",
+                    "modulos.nome as Modulos",
                 )
-                .table("programa")
+                .table("programas")
                 .join(
-                    "programa_submodulo",
-                    "programaSubModuloId",
+                    "programa_SubModulo",
+                    "programa_SubModulo.id",
                     "=",
-                    "programa_submodulo.id",
+                    "programaSubModuloId",
+                )
+                .join(
+                    "modulos",
+                    "modulos.id",
+                    "=",
+                    "programa_SubModulo.moduloId",
                 );
 
-            res.json(
-                { modulo, subModulo, programa },
-                //{ programa },
-            );
+
+
+
+            const agrupamento = groupBy(programa, "Modulos");
+
+
+
+
+            res.json(agrupamento);
         } catch (error) {
             res.json({
                 mensagem: "Verifique, ocorreu erro ao listar os dados",
@@ -188,5 +188,12 @@ module.exports = (app) => {
         }
     };
 
-    return { listarModulo };
+    return {
+        cadastrar_MODULO,
+        cadastrar_PROGRAMAS,
+        cadastrar_SUBPROGRAMA,
+        listar_PROGRAMAS,
+        listar_MODULOS,
+        listar_SUBPROGRAMA
+    };
 };

@@ -157,14 +157,14 @@ module.exports = (app) => {
                     "pessoas.complemento",
                     "municipio.nome as cidade",
                     "uf.nome as uf")
-                .table("PESSOAS")
+                .table("pessoas")
                 .join('pessoa_fisica', 'pessoa_fisica.pessoasId', 'pessoas.id')
                 .join('uf', 'uf.id', 'ufId')
                 .join('municipio', 'municipio.id', 'municipioId')
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("PESSOAS").count();
+            const [count] = await app.db("pessoas").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 
@@ -202,14 +202,14 @@ module.exports = (app) => {
                     "pessoas.complemento",
                     "municipio.nome as cidade",
                     "uf.nome as uf")
-                .table("PESSOAS")
+                .table("pessoas")
                 .join('pessoa_juridica', 'pessoa_juridica.pessoasId', 'pessoas.id')
                 .join('uf', 'uf.id', 'ufId')
                 .join('municipio', 'municipio.id', 'municipioId')
                 .limit(limite)
                 .offset((page - 1) * limite);
 
-            const [count] = await app.db("PESSOAS").count();
+            const [count] = await app.db("pessoas").count();
             const totalPage = Math.ceil(count["count(*)"] / limite);
             const pageAtual = parseInt(page);
 

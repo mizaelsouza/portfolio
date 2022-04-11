@@ -74,6 +74,52 @@ module.exports = (app) => {
             });
     };
 
+    /*Metodo que ira inserir os dados no banco*/
+    const cadastrar_Perfil_USUARIOS_PROGRAMA = (req, res) => {
+
+        app.db("perfil_usuarios_programas")
+            .insert(req.body)
+            .then((_) => res.status(200).send("Sucesso."))
+            .catch((err) => {
+                if (err.code === "ER_DUP_ENTRY") {
+                    res.status(400).json({
+                        status: 400,
+                        mensagem: "Perfil do Programa já esta cadastro.",
+                        "motivo:": err.sqlMessage,
+                    });
+                } else {
+                    res.status(500).json({
+                        status: 500,
+                        mensagem: "Verifique os dados: ",
+                        err,
+                    });
+                }
+            });
+    };
+
+
+    const cadastrar_USUARIOS_PROGRAMA = (req, res) => {
+
+        app.db("usuario_programas")
+            .insert(req.body)
+            .then((_) => res.status(200).send("Sucesso."))
+            .catch((err) => {
+                if (err.code === "ER_DUP_ENTRY") {
+                    res.status(400).json({
+                        status: 400,
+                        mensagem: "Usuario do Programa já esta cadastro.",
+                        "motivo:": err.sqlMessage,
+                    });
+                } else {
+                    res.status(500).json({
+                        status: 500,
+                        mensagem: "Verifique os dados: ",
+                        err,
+                    });
+                }
+            });
+    };
+
     const atualizar = (req, res) => {
         const email = req.params.id;
         const { login, senha, perfilId, status } = req.body;
@@ -191,6 +237,9 @@ module.exports = (app) => {
             });
         }
     };
+
+
+
     const listarPerfil = async (req, res) => {
         try {
             const { page = 1 } = req.query;
@@ -219,12 +268,73 @@ module.exports = (app) => {
         }
     };
 
+
+
+
+    const listar_Perfil_USUARIOS_PROGRAMA = async (req, res) => {
+        try {
+            const result = await app.db.select("*").table("perfil_usuarios_programas")
+            res.json(result);
+
+        } catch (error) {
+            res.json({
+                mensagem: "Verifique, ocorreu erro ao listar os dados",
+                motivo: error,
+            });
+        }
+    };
+
+
+    const listar_USUARIOS_PROGRAMA = async (req, res) => {
+        try {
+            const result = await app.db.select("usuario_programas.id","login as usuario","nome as programa").table("usuario_programas")
+            .join('usuarios','usuarios.id','usuarioId')
+            .join('programas','programas.id','programaId')
+            res.json(result);
+
+        } catch (error) {
+            res.json({
+                mensagem: "Verifique, ocorreu erro ao listar os dados",
+                motivo: error,
+            });
+        }
+    };
+
+
+    const atualizar_Perfil_USUARIOS_PROGRAMA = async (req, res) => {
+        try {
+            const id = req.params.id
+            await app.db("perfil_usuarios_programas").update(req.body).where({ id: id });
+            res.status(200).send('Dados Atualizados.')
+
+        } catch (error) {
+            res.status(500).send({ ERRO: 'Falha ao atualizar os DADOS.', error })
+        }
+    };
+
+    const deletar_Perfil_USUARIOS_PROGRAMA = async (req, res) => {
+        try {
+            const id = req.params.id
+            await app.db("perfil_usuarios_programas").delete().where({ id: id });
+            res.status(200).send('Dados deletar com sucesso.')
+
+        } catch (error) {
+            res.status(500).send({ ERRO: 'Falha ao deletar os DADOS.', error })
+        }
+    };
+
     return {
         save,
         cadastrar_perfil,
+        cadastrar_Perfil_USUARIOS_PROGRAMA,
+        cadastrar_USUARIOS_PROGRAMA,
         listar,
         listarPerfil,
         listarPorEmail,
+        listar_Perfil_USUARIOS_PROGRAMA,
+        listar_USUARIOS_PROGRAMA,
         atualizar,
+        atualizar_Perfil_USUARIOS_PROGRAMA,
+        deletar_Perfil_USUARIOS_PROGRAMA
     };
 };

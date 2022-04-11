@@ -31,7 +31,7 @@ module.exports = (app) => {
     };
 
     const listarSubGrupo = (req, res) => {
-        app.db("subgrupo")
+        app.db("subGrupo")
             .then((grupo) => {
                 if (grupo) {
                     res.status(200).send(grupo);
