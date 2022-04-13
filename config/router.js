@@ -231,7 +231,7 @@ module.exports = (app) => {
 
     app.route("/api/produtos/pesquisar")
         .all(app.config.passport.authenticate())
-        .post(app.api.produtos.filtrar);
+        .get(app.api.produtos.filtrar_PRODUTOSCASTRADOS);
 
     //GROUPOS
     app.route("/api/grupo")
