@@ -221,7 +221,7 @@ module.exports = (app) => {
     try {
       const { page = 1 } = req.query;
       const limite = 6;
-      const query = await app
+      const query = await app.db
         .select(
           "produtos.id",
           "produtos.descricao",
@@ -234,8 +234,7 @@ module.exports = (app) => {
           "produtos_valores.preco",
           "produtos_valores.estoque"
         )
-        .table("produtos")
-        .where("produtos.id", "=", id)
+        .table("produtos")        
         .join("produtos_valores", "produtos_valores.produtosId", "produtos.Id")
         .join("secao", "secao.id", "produtos.secaoId")
         .join("grupo", "grupo.id", "produtos.grupoId")
@@ -353,7 +352,6 @@ module.exports = (app) => {
           .join("secao", "secao.id", "produtos.secaoId")
           .join("grupo", "grupo.id", "produtos.grupoId")
           .join("subGrupo", "subGrupo.id", "produtos.subGrupoId");
-        
 
         if (result.length > 0) {
           res.json(result);
@@ -377,7 +375,7 @@ module.exports = (app) => {
             "produtos_valores.estoque"
           )
           .table("produtos")
-          .where('produtos.descricao','like' ,`%${descricao}%`)
+          .where("produtos.descricao", "like", `%${descricao}%`)
           .join(
             "produtos_valores",
             "produtos_valores.produtosId",
@@ -386,7 +384,6 @@ module.exports = (app) => {
           .join("secao", "secao.id", "produtos.secaoId")
           .join("grupo", "grupo.id", "produtos.grupoId")
           .join("subGrupo", "subGrupo.id", "produtos.subGrupoId");
-        
 
         if (result.length > 0) {
           res.json(result);
