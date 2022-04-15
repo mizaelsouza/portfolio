@@ -220,7 +220,7 @@ module.exports = (app) => {
   const listaTodosComPagina = async (req, res) => {
     try {
       const { page = 1 } = req.query;
-      const limite = 20;
+      const limite = 10;
       const query = await app.db
         .select(
           "produtos.id",
