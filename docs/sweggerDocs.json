@@ -1,781 +1,320 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Documentação de manipulação das APIs",
-        "description": "Essa api tem a finalidade de manipular os dados dos produtos.",
-        "termsOfService": "http://localhost:3003/temos",
-        "contact": {
-            "email": "mizaelsouza31@gmail.com"
-        },
-        "version": "1.0.00"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentação de manipulação das APIs",
+    "description": "Essa api tem a finalidade de manipular os dados auxiliar na implantação do sistema.",    
+    "contact": {
+      "email": "suporte02@ccotecnologia.com.br"
     },
-    "servers": [
-        {
-            "url": "http://localhost:3003/api",
-            "description": "url para produção."
+    "version": "1.0.00"
+  },
+  
+  "paths": {
+    "/produtos/cadastro": {
+      "post": {
+        "sumary": "Cadastro de produtos.",
+        "description": "Essa api tem a finalidade de cadastrar novos produtos.",
+        "tags": ["Produtos"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "$ref": "#/components/schemas/Produtos"
+              },
+              "examples": {
+                "Produtos": {
+                  "value": {
+                    "descricao": "Primeiro cadastro teste",
+                    "secaoId": 1,
+                    "grupoId": 1,
+                    "subGrupoId": 1,
+                    "status": 1,
+                    "preco": 50.25,
+                    "estoque": 10,
+                    "custoNota": 50.25,
+                    "custoReposicao": 50.25,
+                    "custoContabil": 50.25,
+                    "lojaId": 1,
+                    "url": " "
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+
+          "500": {
+            "description": "Not Found"
+          }
         }
-    ],
-    "paths": {
-        "/usuario/cadastro": {
-            "post": {
-                "sumary": "Cadastro de usuarios.",
-                "description": "Essa api tem a finalidade de cadastrar novos usuarios.",
-                "tags": [
-                    "Usuários"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Usuarios"
-                            },
-                            "examples": {
-                                "produtos": {
-                                    "value": {
-                                        "nome": "Cco tecnologia",
-                                        "email": "suporte02@ccotecnologia.com.br",
-                                        "senha": "123456",
-                                        "permissao": 1
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/usuario/login": {
-            "post": {
-                "sumary": "Relizando login do usuario",
-                "description": "Essa api tem como objetivo realizar o login do usuario.",
-                "tags": [
-                    "Usuários"
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Login"
-                            },
-                            "examples": {
-                                "usuarios": {
-                                    "value": {
-                                        "email": "cco@cco.com",
-                                        "senha": "123456"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/usuario/atualizar/{email}": {
-            "put": {
-                "sumary": "Atualizar dados do usuarios",
-                "description": "Essa api tem como objetivo realizar alteração nos dados do usuario.",
-                "tags": [
-                    "Usuários"
-                ],
-
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UsuarioAtualizacao"
-                            },
-                            "examples": {
-                                "usuarios": {
-                                    "value": {
-                                        "nome": "Suporte",
-                                        "senha": "123456",
-                                        "permissao": "123456"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/produto/cadastro": {
-            "post": {
-                "sumary": "Cadastro de produtos.",
-                "description": "Essa api tem a finalidade de cadastrar novos produtos.",
-                "tags": [
-                    "Produtos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "array",
-                                "$ref": "#/components/schemas/Produtos"
-                            },
-                            "examples": {
-                                "produtos": {
-                                    "value": [
-                                        {
-                                            "codigo": "22222",
-                                            "descricao": "`Produto vertor 06`",
-                                            "marca": "Asus",
-                                            "referencia": "EXAD581",
-                                            "qtd": 15,
-                                            "ean": "7898911299179",
-                                            "ultCusto": 15.15,
-                                            "valor": 25.25,
-                                            "url": ""
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/produto/{codigo}": {
-            "put": {
-                "sumary": "Atualizar dados do produto",
-                "description": "Essa api tem como objetivo realizar alteração nos dados do produto.",
-                "tags": [
-                    "Produtos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ProdutosAtualizacao"
-                            },
-                            "examples": {
-                                "produtos": {
-                                    "value": {
-                                        "descricao": "Produto vertor 06",
-                                        "marca": "Asus",
-                                        "referencia": "EXAD581",
-                                        "qtd": 15,
-                                        "ean": "7898911299179",
-                                        "ultCusto": 15.15,
-                                        "valor": 25.25,
-                                        "url": ""
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/produtos": {
-            "get": {
-                "sumary": "Lista de produtos.",
-                "description": "Essa api ira consulta todos os dados.",
-                "tags": [
-                    "Produtos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "oneOf": {
-                    "$ref": "#/components/schemas/Produtos"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/produtos/consulta/{codigo}": {
-            "get": {
-                "sumary": "Lista de produtos.",
-                "description": "Essa api tem a finalidade de consulta os produtos pelo codigo do produto.",
-                "tags": [
-                    "Produtos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "codigo",
-                        "in": "path",
-                        "descripiton": "Consultando produto pelo codigo.",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/lojas/produtos/consulta/{codigo}": {
-            "get": {
-                "sumary": "Lista de produtos.",
-                "description": "Essa api tem a finalidade de consulta os produtos nas lojas.",
-                "tags": [
-                    "Produtos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "codigo",
-                        "in": "path",
-                        "descripiton": "Consultando produto pelo codigo.",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas": {
-            "post": {
-                "sumary": "Vendas",
-                "description": "Api responsavel por inserir os dados da venda.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "array",
-                                "$ref": "#/components/schemas/Vendas"
-                            },
-                            "examples": {
-                                "Vendas": {
-                                    "value": [
-                                        {
-                                            "nota": "01*01*125469",
-                                            "horasvenda": "15:52:00",
-                                            "dtemissao": "2021-10-15",
-                                            "totalCusto": 52.52,
-                                            "totalNota": 658.52
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas/{nota}": {
-            "put": {
-                "sumary": "Atualização das vendas",
-                "description": "Api responsavel por atualizar os registros das vendas.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "array",
-                                "$ref": "#/components/schemas/VendasAtualizar"
-                            },
-                            "examples": {
-                                "Vendas": {
-                                    "value": [
-                                        {
-                                            "horasvenda": "15:52:00",
-                                            "dtemissao": "2021-10-15",
-                                            "totalCusto": 52.52,
-                                            "totalNota": 658.52
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas/mes/todos": {
-            "get": {
-                "sumary": "Lista todas as vendas",
-                "description": "Consulta das as vendas realizada no ano.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "oneOf": {
-                    "$ref": "#/components/schemas/Vendas"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas/dia": {
-            "get": {
-                "sumary": "Lista todas as vendas",
-                "description": "Consulta das as vendas realizada no DIA.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "oneOf": {
-                    "$ref": "#/components/schemas/Vendas"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas/horas": {
-            "get": {
-                "sumary": "Lista todas as vendas",
-                "description": "Consulta das as vendas realizada no Horas.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "oneOf": {
-                    "$ref": "#/components/schemas/Vendas"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/vendas/mes": {
-            "get": {
-                "sumary": "Lista todas as vendas",
-                "description": "Consulta das as vendas realizada no Mes.",
-                "tags": [
-                    "Vendas"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "oneOf": {
-                    "$ref": "#/components/schemas/Vendas"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        },
-        "/produtos/fotos": {
-            "post": {
-                "sumary": "Fotos dos produtos",
-                "description": "Essa api tem a finalidade de cadastrar as imagem nos produtos.",
-                "tags": [
-                    "Fotos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ImagemProdutos"
-                            },
-                            "examples": {
-                                "produtos": {
-                                    "value": [
-                                        {
-                                        "url": "https://cdn.pixabay.com/photo/2020/10/21/18/07/laptop-5673901_960_720.jpg",
-                                        "produtoFK": "34252"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-
-                }
-            }
-        },
-        "/produtos/fotos?codigo={codigo}&url={urlcadastrada}": {
-            "put": {
-                "sumary": "Fotos dos produtos",
-                "description": "Os paramentros deve ser passado via query. Na URI acima onde esta URL=urlcadastrada fazer a substituição pela url já cadastrar no banco.                ",
-                "tags": [
-                    "Fotos"
-                ],
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ImagemProdutosAtualizar"
-                            },
-                            "examples": {
-                                "imagem": {
-                                    "value": {
-                                        "url": "https://cdn.pixabay.com/photo/2020/10/21/18/07/laptop-5673901_960_720.jpg"                                       
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-
-                    "500": {
-                        "description": "mensagem: ERRO AO SALVAR O REGISTRO: Verifique os dados passado pelo paramentro."
-                    }
-                }
-            }
-        }
+      }
     },
-    "components": {
-        "schemas": {
-            "Usuarios": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "nome": {
-                        "type": "integer"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "senha": {
-                        "type": "string"
-                    },
-                    "token": {
-                        "type": "string"
-                    }
+    "/produtos/cadastro/{codigo}": {
+      "put": {
+        "sumary": "Atualizar dados dos produtos",
+        "description": "Passará o ID via params.id e os dados que deseja alterar via query",
+        "tags": ["Produtos"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Produtos Atualização"
+              },
+              "examples": {
+                "Produtos": {
+                  "value": {
+                    "descricao": "Atualizando cadastro teste",
+                    "secaoId": 1,
+                    "grupoId": 1,
+                    "subGrupoId": 1,
+                    "status": 1,
+                    "preco": 50.25,
+                    "estoque": 10,
+                    "custoNota": 50.25,
+                    "custoReposicao": 50.25,
+                    "custoContabil": 50.25,
+                    "lojaId": 1,
+                    "url": " "
+                  }
                 }
-            },
-            "Login": {
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string"
-                    },
-                    "senha": {
-                        "type": "string"
-                    }
-                }
-            },
-            "UsuarioAtualizacao": {
-                "type": "object",
-                "properties": {
-                    "nome": {
-                        "type": "string"
-                    },
-                    "senha": {
-                        "type": "string"
-                    },
-                    "permissao": {
-                        "type": "string"
-                    }
-                }
-            },
-            "Produtos": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "codigo": {
-                        "type": "string"
-                    },
-                    "descricao": {
-                        "type": "string"
-                    },
-                    "marca": {
-                        "type": "string"
-                    },
-                    "referencia": {
-                        "type": "string"
-                    },
-                    "qtd": {
-                        "type": "integer"
-                    },
-                    "ean": {
-                        "type": "string"
-                    },
-                    "ultCusto": {
-                        "type": "number"
-                    },
-                    "valor": {
-                        "type": "number"
-                    },
-                    "url": {
-                        "type": "string"
-                    }
-                }
-            },
-            "ProdutosAtualizacao": {
-                "type": "object",
-                "properties": {
-                    "descricao": {
-                        "type": "string"
-                    },
-                    "marca": {
-                        "type": "string"
-                    },
-                    "referencia": {
-                        "type": "string"
-                    },
-                    "qtd": {
-                        "type": "integer"
-                    },
-                    "ean": {
-                        "type": "string"
-                    },
-                    "ultCusto": {
-                        "type": "number"
-                    },
-                    "valor": {
-                        "type": "number"
-                    },
-                    "url": {
-                        "type": "string"
-                    }
-                }
-            },
-            "Vendas": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "nota": {
-                        "type": "string"
-                    },
-                    "horasvenda": {
-                        "type": "string"
-                    },
-                    "dtemissao": {
-                        "type": "string"
-                    },
-                    "totalCusto": {
-                        "type": "number"
-                    },
-                    "totalNota": {
-                        "type": "number"
-                    }
-                }
-            },
-            "VendasAtualizar": {
-                "type": "object",
-                "properties": {
-                    "horasvenda": {
-                        "type": "string"
-                    },
-                    "dtemissao": {
-                        "type": "string"
-                    },
-                    "totalCusto": {
-                        "type": "number"
-                    },
-                    "totalNota": {
-                        "type": "number"
-                    }
-                }
-            },
-            "ImagemProdutos": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "url": {
-                        "type": "string"
-                    },
-                    "produtoFK": {
-                        "type": "integer"
-                    }
-                }
-            },
-            "ImagemProdutosAtualizar": {
-                "type": "object",
-                "properties": {
-                    "url": {
-                        "type": "string"
-                    }
-                   
-                }
+              }
             }
+          }
         },
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+
+          "500": {
+            "description": "Not Found"
+          }
         }
+      }
+    },
+
+    "/midia/cadastro": {
+      "post": {
+        "sumary": "Atualizar dados dos produtos",
+        "description": "Nesta api, iremos fazer o cadastro da midia digital",
+        "tags": ["Midia Digital"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Midia Digital"
+              },
+              "examples": {
+                "Midia Digital": {
+                  "value": {
+                    "descricao": "Atualizando cadastro teste",
+                    "file": "fotos"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+
+          "500": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/midia/produtos/cadastro": {
+      "post": {
+        "sumary": "Atualizar dados dos produtos",
+        "description": "Cadastrar os produtos na midia digital",
+        "tags": ["Midia Digital Produtos"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Midia Produtos"
+              },
+              "examples": {
+                "Midia Digital Produtos": {
+                  "value": {
+                    "midiaId": 1,
+                    "produtosId": 1                   
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+
+          "500": {
+            "description": "Not Found"
+          }
+        }
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "Produtos": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string"
+          },
+          "secaoId": {
+            "type": "integer"
+          },
+          "grupoId": {
+            "type": "integer"
+          },
+          "subGrupoId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "preco": {
+            "type": "decimal"
+          },
+          "estoque": {
+            "type": "integer"
+          },
+          "custoNota": {
+            "type": "decimal"
+          },
+          "custoReposicao": {
+            "type": "decimal"
+          },
+          "custoContabil": {
+            "type": "decimal"
+          },
+          "lojaId": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Produtos Atualização": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string"
+          },
+          "secaoId": {
+            "type": "integer"
+          },
+          "grupoId": {
+            "type": "integer"
+          },
+          "subGrupoId": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "preco": {
+            "type": "decimal"
+          },
+          "estoque": {
+            "type": "integer"
+          },
+          "custoNota": {
+            "type": "decimal"
+          },
+          "custoReposicao": {
+            "type": "decimal"
+          },
+          "custoContabil": {
+            "type": "decimal"
+          },
+          "lojaId": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+
+      "Midia Digital": {
+        "type": "object",
+        "properties": {
+          "descricao": {
+            "type": "string"
+          },
+          "file": {
+            "type": "file"
+          }
+        }
+      },
+
+      "Midia Produtos": {
+        "type": "object",
+        "properties": {
+          "midiaId": {
+            "type": "integer"
+          },
+          "produtosId": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }

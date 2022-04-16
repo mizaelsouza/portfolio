@@ -1,5 +1,3 @@
-const sweggerUi = require("swagger-ui-express");
-const sweggerDocs = require("../docs/sweggerDocs.json");
 const multer = require("multer");
 const configMulter = require("./upload/multer");
 
@@ -8,6 +6,7 @@ module.exports = (app) => {
     USO APENAS EM TESTE
     
     */
+ 
     app.post(
         "/api/usuarios/recuperar_senha",
         app.api.authenticar.recuperarsenha,
