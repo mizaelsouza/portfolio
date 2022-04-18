@@ -166,11 +166,11 @@ module.exports = (app) => {
   const consultaSubGrupoPorGrupo = (req, res) => {
     const codigo = req.params.id;
     app
-      .db("subgrupo")
+      .db("subGrupo")
       .where({ grupoId: codigo })
       .then((subgrupo) => {
         if (subgrupo) {
-          res.status(200).send(subgrupo.reverse());
+          res.status(200).send(subgrupo);
         }
       })
       .catch((err) => {
