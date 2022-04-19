@@ -1,6 +1,5 @@
 
 const groupBy = (arr,  modulo) => {
-
     const obj = arr.reduce(function (acc, currentValue) {
         if (!acc[currentValue[modulo]]) {
             acc[currentValue[modulo]] = [];

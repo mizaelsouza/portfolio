@@ -550,6 +550,10 @@ module.exports = (app) => {
 
     app.route("/api/cadastro/municipio/:id")
         .all(app.config.passport.authenticate())
+        .post(app.api.uf.cadastrar_MUNICIPIO);
+
+    app.route("/api/cadastro/municipio/:id")
+        .all(app.config.passport.authenticate())
         .get(app.api.uf.filtrar_MUNICIPIO);
 
 

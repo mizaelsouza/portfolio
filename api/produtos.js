@@ -118,9 +118,7 @@ module.exports = (app) => {
       res.status(500).json({
         mensagem: "ERROR: Dados não registrado, verifique o ID.",
         error: error,
-      });
-
-      console.log(req.body);
+      });      
     }
   };
 
