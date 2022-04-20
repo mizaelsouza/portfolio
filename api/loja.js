@@ -96,24 +96,19 @@ module.exports = (app) => {
                 "loja.cnpj",
                 "loja.iest",
                 "loja.im",
-                "contatos.telefone",
-                "contatos.celular",
-                "contatos.email",
-                "contatos.site",
+               
 
                 "pessoas.cep",
                 "pessoas.logradouro",
                 "pessoas.numero",
                 "pessoas.complemento",
-                "pessoas.bairro",
-                "municipio.nome as cidade",
-                "uf.sigla as uf"
+                "pessoas.bairro"
+                
+                
             )
             .table("loja")
             .join("pessoas", "pessoas.id", "pessoasId")
-            .join("contatos", "contatos.pessoasId", "pessoas.id")
-            .join("municipio", "municipio.id", "pessoas.municipioId")
-            .join("uf", "uf.id", "pessoas.ufId");
+            
 
 
         res.json({
