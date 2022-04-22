@@ -14,19 +14,16 @@ module.exports = (app) => {
             .catch((err) => res.status(400).send(err));
     };*/
   const salvarMidia = (req, res) => {
-      
-    if (req.file.originalname === undefined || req.file.originalname === "") {
-        console.log('vazio')
-    }
-      /*const {
-        originalname: nome = "",
-        key: chave = "",
-        size = "",
-        location: fundoUrl = "",
-      } = req.file;
+    const {
+      originalname: nome = "",
+      key: chave = "",
+      size = "",
+      location: fundoUrl = "",
+    } = req.file;
 
-      const { descricao, status = 1 } = req.body;
-
+    const { descricao, status = 1 } = req.body;
+    
+    if (process.env.STORAGE_TYPE != "local") {
       const dadosMidia = {
         descricao,
         fundoUrl,
@@ -35,10 +32,7 @@ module.exports = (app) => {
         chave,
         size,
       };
-
-      if (process.env.STORAGE_TYPE === "local") {
-        dadosMidia.fundoUrl = `${process.env.APP_URL}${chave}`;
-      }
+      
       app
         .db("midia_digital")
         .insert(dadosMidia)
@@ -46,16 +40,16 @@ module.exports = (app) => {
         .catch((err) => res.status(400).send(err));
     } else {
       const dadosMidia = {
-        descricao,       
-        status: 1
+        descricao,
+        status: 1,
       };
-    
+
       app
         .db("midia_digital")
         .insert(dadosMidia)
         .then((_) => res.status(200).send("Sucesso."))
         .catch((err) => res.status(400).send(err));
-    }*/
+    }
   };
 
   const salvarMidiaProdutos = (req, res) => {
