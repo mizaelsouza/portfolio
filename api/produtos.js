@@ -33,18 +33,8 @@ module.exports = (app) => {
         )
         .table("produtos_fotos")
         .join("produtos", "produtos.id", "=", "produtosId")
-        .limit(10)
-        .offset((page - 1) * limite);
-
-      const [count] = await app.db("produtos_fotos").count();
-      const totalPage = Math.ceil(count["count(*)"] / limite);
-      const pageAtual = parseInt(page);
-      res.json({
-        Total: count["count(*)"],
-        Paginas: totalPage,
-        PaginaAtual: pageAtual,
-        Fotos: query,
-      });
+       
+      res.json(query);
     } catch (error) {
       console.log(error);
     }
