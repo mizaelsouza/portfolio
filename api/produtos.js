@@ -1,5 +1,6 @@
-const { json } = require("body-parser");
-const { response } = require("express");
+const fs = require("fs");
+const path = require("path");
+const aws = require("aws-sdk");
 
 module.exports = (app) => {
   /*RESPONSAVEL POR CARREGAR OS DADOS DO PRODUTO*/
@@ -118,7 +119,7 @@ module.exports = (app) => {
       res.status(500).json({
         mensagem: "ERROR: Dados não registrado, verifique o ID.",
         error: error,
-      });      
+      });
     }
   };
 
@@ -148,11 +149,26 @@ module.exports = (app) => {
       .catch((err) => res.status(400).send(err));
   };
 
-  const salvarFoto = (req, res) => {
-    const registro = req.body;
+  const salvarFoto = (req, res) => {    
+    const s3 = new aws.S3();
+    const {
+      originalname: nome = "",
+      key: chave = "",
+      size = "",
+      location: url = "",
+    } = req.file;
+    const produtosId = req.params.id
+
+    const dados = {
+      nome,
+      chave,
+      url,
+      size,
+      produtosId
+    }    
     app
       .db("produtos_fotos")
-      .insert(registro)
+      .insert(dados)
       .then((_) => res.status(200).send("Sucesso."))
       .catch((err) => res.status(400).send(err));
   };
@@ -232,7 +248,7 @@ module.exports = (app) => {
           "produtos_valores.preco",
           "produtos_valores.estoque"
         )
-        .table("produtos")        
+        .table("produtos")
         .join("produtos_valores", "produtos_valores.produtosId", "produtos.Id")
         .join("secao", "secao.id", "produtos.secaoId")
         .join("grupo", "grupo.id", "produtos.grupoId")

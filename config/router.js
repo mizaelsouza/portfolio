@@ -224,9 +224,9 @@ module.exports = (app) => {
         .all(app.config.passport.authenticate())
         .post(app.api.produtos.salvarProdutoValores);
 
-    app.route("/api/produtos/fotos/cadastro")
+    app.route("/api/produtos/fotos/cadastro/:id")
         .all(app.config.passport.authenticate())
-        .post(app.api.produtos.salvarFoto);
+        .post(multer(configMulter).single("file"), app.api.produtos.salvarFoto);
 
     app.route("/api/produtos/pesquisar")
         .all(app.config.passport.authenticate())

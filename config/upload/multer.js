@@ -20,7 +20,7 @@ const storageType = {
 
     s3: multerS3({
         s3: new aws.S3(),
-        bucket: "saci-web-upload",
+        bucket: process.env.BUCKETS_S3,
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: "public-read",
         key: (req, file, cb) => {

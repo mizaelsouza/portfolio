@@ -215,7 +215,7 @@ module.exports = (app) => {
       const result = await app.db("midia_digital").where("id", id).del();
       if (result === 1) {
         s3.deleteObject({
-          Bucket: "saci-web",
+          Bucket: process.env.BUCKETS_S3,
           Key: key,
         }).promise();
         res.status(200).send("Sucesso.");

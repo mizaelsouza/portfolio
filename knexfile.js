@@ -1,6 +1,7 @@
 var ip = require("ip");
 
 module.exports = {
+    
     development: {
         client: "mysql",
         version: "8.0.26",
