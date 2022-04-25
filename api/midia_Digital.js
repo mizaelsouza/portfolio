@@ -141,7 +141,9 @@ module.exports = (app) => {
         .where({ midiaId: midia })
         .where("midia_digital_produtos.produtosId", "!=", "")
         .limit(limite)
-        .offset((page - 1) * limite);
+        .offset((page - 1) * limite)
+        .groupBy('produtos_fotos.produtosId');
+        
 
       const [count] = await app
         .db("midia_digital_produtos")
