@@ -4,6 +4,7 @@ exports.up = function (knex, Promise) {
             return knex.schema.createTable("loja", (table) => {
                 table.bigIncrements("id").primary().notNullable();
                 table.string("nomeFantasia").notNullable().unique();
+                table.string("cnpj").unique;
                 table.string("im");
                 table.string("iest");
                 table.string("site");
